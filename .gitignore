@@ -1,0 +1,19 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Python
+.venv/
+__pycache__/
+
+# VSCode settings except launch.json
+.vscode/*
+!.vscode/launch.json
+
+# Misc
+*.swp
+*.swo
+.idea/
+*.bak
+*.tmp
