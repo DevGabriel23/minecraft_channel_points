@@ -1,5 +1,6 @@
 import asyncio
 import json
+import math
 import random
 import time
 import uuid
@@ -170,16 +171,17 @@ async def player_transform(ctx: PlayerTransformContext):
     """Se dispara cuando la posición o rotación del jugador cambia."""
     player_name = ctx.player
     player_pos = ctx.player_position
-    
+
     x = player_pos[0].coord
     y = player_pos[1].coord
     z = player_pos[2].coord
     
+    player_rotation = ctx._data.get('player', {}).get("yRot", 0)
+    
     player_data[player_name] = {
         "position": {"x": x, "y": y, "z": z},
+        "rotation": player_rotation,
     }
-
-    # print(f"Posición de {player_name} actualizada: x={x}, y={y}, z={z}")
 
 
 @game_event
@@ -244,8 +246,18 @@ async def spawn_mob_at_player(request: MobRequest, player_name: str | None = Non
         else:
             title_command = f"title {selected_player_name} actionbar \"§aHa spawneado {color}{username} §a({mob_type_name[request.mob_type]})!\""
     
-    command = f"summon {request.mob_type}{mob_name}{player_pos_data['x']} {player_pos_data['y']} {player_pos_data['z']}"
-    
+    player_rotation = player_data[selected_player_name]['rotation']
+    distance = 3
+
+    yaw_in_radians = player_rotation * (math.pi / 180)
+    delta_x = -math.sin(yaw_in_radians) * distance
+    delta_z = math.cos(yaw_in_radians) * distance
+
+    summon_x = player_pos_data['x'] + delta_x
+    summon_z = player_pos_data['z'] + delta_z
+
+    command = f"summon {request.mob_type}{mob_name}{summon_x} {player_pos_data['y'] - 1} {summon_z}"
+
     await send_minecraft_command(command)
     await send_minecraft_command(title_command)
     
@@ -319,7 +331,7 @@ async def teleport_player(request: TeleportRequest, player_name: str | None = No
     start_time = time.time()
     
     safe_destination_y = None
-    low = -64
+    low = -59
     level_above_sea = 64
     high = 320 # Rango de altura en Minecraft Bedrock
     last_high = 320
