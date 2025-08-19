@@ -1,3 +1,4 @@
+# config/const.py
 mob_type_name = {
     "bogged": "Enfangado",
     "breeze": "Brisa",
@@ -280,3 +281,21 @@ bad_effects = {
     "weakness": "Debilidad",
     "wither": "Wither"
 }
+
+random_events = [
+    {
+        "name": "Spawn de Mob Hostil",
+        "command": "spawn_mob_at_player",
+        "args": {"mob_dict": hostile_mobs, "player_name": "random", "username": "Herobrine"}
+    },
+    # {
+    #     "name": "Teletransporte aleatorio",
+    #     "command": "teleport_player",
+    #     "args": {"player_name": "random", "username": "Cronometro"}
+    # },
+    # {
+    #     "name": "Efecto de poción aleatorio",
+    #     "command": "roulette_effect",
+    #     "args": {"player_name": "random", "username": "Cronometro"}
+    # }
+]
