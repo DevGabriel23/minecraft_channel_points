@@ -288,14 +288,14 @@ random_events = [
         "command": "spawn_mob_at_player",
         "args": {"mob_dict": hostile_mobs, "player_name": "random", "username": "Herobrine"}
     },
-    # {
-    #     "name": "Teletransporte aleatorio",
-    #     "command": "teleport_player",
-    #     "args": {"player_name": "random", "username": "Cronometro"}
-    # },
-    # {
-    #     "name": "Efecto de poción aleatorio",
-    #     "command": "roulette_effect",
-    #     "args": {"player_name": "random", "username": "Cronometro"}
-    # }
+    {
+        "name": "Teletransporte aleatorio",
+        "command": "teleport_player",
+        "args": {"player_name": "random", "username": "Cronometro"}
+    },
+    {
+        "name": "Efecto de poción aleatorio",
+        "command": "roulette_effect",
+        "args": {"player_name": "random", "username": "Cronometro"}
+    }
 ]

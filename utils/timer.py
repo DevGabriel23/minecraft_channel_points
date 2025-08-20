@@ -112,7 +112,7 @@ async def run_random_event(player_data: Dict[str, Any], player_name: str):
                 mob_dict: Dict = args.get("mob_dict", {})
                 mob_type = random.choice(list(mob_dict.keys())) if mob_dict else "zombie"
                 
-                request_obj = MobRequest(mob_type=mob_type)
+                request_obj = MobRequest(mob_type=mob_type, quantity=random.randint(1,5), r=1)
             elif command_name == "teleport_player":
                 request_obj = TeleportRequest(**args)
             else:

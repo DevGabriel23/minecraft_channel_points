@@ -68,9 +68,23 @@ async def spawn_mob_at_player(request: MobRequest, player_name: str | None = Non
     summon_x = player_pos_data['x'] + delta_x
     summon_z = player_pos_data['z'] + delta_z
 
-    command = f"summon {request.mob_type}{mob_name}{summon_x} {player_pos_data['y'] - 1} {summon_z}"
+    spawn_tasks = []
+    
+    for _ in range(request.quantity):
+        # Añade una pequeña variación a las coordenadas para que no se superpongan
+        if request.quantity > 1:
+            random_offset_x = random.randint(-request.r, request.r)
+            random_offset_z = random.randint(-request.r, request.r)
+        else:
+            random_offset_x = 0
+            random_offset_z = 0
 
-    await send_minecraft_command(command)
+        command = f"summon {request.mob_type}{mob_name} {summon_x + random_offset_x} {player_pos_data['y']} {summon_z + random_offset_z}"
+
+        task = send_minecraft_command(command, wait=False)
+        spawn_tasks.append(task)
+        
+    await asyncio.gather(*spawn_tasks)
     await send_minecraft_command(title_command)
     
     return {

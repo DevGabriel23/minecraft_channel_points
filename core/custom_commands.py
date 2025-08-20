@@ -1,5 +1,6 @@
 # core/custom_commands.py
 import asyncio
+
 from utils.timer import send_countdown_timer
 from core.commands import send_minecraft_command
 from core.state import player_data
@@ -89,5 +90,7 @@ async def parse_and_execute_command(message: str, sender: str):
         # Puedes añadir otros comandos aquí
         # case "!spawn":
         #     await handle_spawn_command(params, sender)
+        case "!help":
+            await send_minecraft_command(f'tellraw "{sender}" {{"rawtext":[{{"text":"§aComandos disponibles: !timer, !help"}}]}}', wait=False)
         case _:
             await send_minecraft_command(f"tellraw @a {{\"rawtext\":[{{\"text\":\"§cComando desconocido.\"}}]}}", wait=False)
